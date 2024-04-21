@@ -1,4 +1,5 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
+import BasicButton from "@/components/atoms/BasicButton";
 
 export default function Component() {
   return (
@@ -22,9 +23,7 @@ export default function Component() {
       >
         <TextField label="メールアドレス" />
         <TextField label="パスワード" type="password" />
-        <Button className="text-xl text-red" variant="contained">
-          ログイン
-        </Button>
+        <BasicButton>ログイン</BasicButton>
       </Stack>
     </Stack>
   );

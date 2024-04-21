@@ -1,6 +1,6 @@
 // /** @type {import('tailwindcss').Config} */
 import type { Config } from "tailwindcss";
-const { fontFamily } = require("tailwindcss/defaultTheme");
+// const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config: Config = {
   corePlugins: {
@@ -49,6 +49,6 @@ const config: Config = {
     },
   },
   important: true,
-  plugins: [require("tailwindcss-animate")],
+  // plugins: [require("tailwindcss-animate")],
 };
 export default config;
