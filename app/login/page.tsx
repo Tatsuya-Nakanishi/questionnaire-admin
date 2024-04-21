@@ -1,5 +1,5 @@
 import { Stack, TextField, Typography } from "@mui/material";
-import BasicButton from "@/components/atoms/BasicButton";
+import BasicButton from "@/components/atoms/BasicButton/index";
 
 export default function Component() {
   return (
