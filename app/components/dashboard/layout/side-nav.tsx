@@ -21,34 +21,23 @@ import { navIcons } from "./nav-icons";
 
 export function SideNav(): React.JSX.Element {
   const pathname = usePathname();
+  console.log("pathname" + pathname);
 
   return (
     <Box
       sx={{
-        "--SideNav-background": "#121621",
-        "--SideNav-color": "#ffffff",
-        "--NavItem-color": "#b3b9c6",
-        "--NavItem-hover-background": "rgba(255, 255, 255, 0.04)",
-        "--NavItem-active-background": "#635bff",
-        "--NavItem-active-color": "#ffffff",
+        // "--SideNav-background": "#121621",
+        // "--SideNav-color": "#ffffff",
+        // "--NavItem-color": "#b3b9c6",
+        // "--NavItem-hover-background": "rgba(255, 255, 255, 0.04)",
+        // // "--NavItem-active-background": "#635bff",
+        // "--NavItem-active-color": "#ffffff",
         "--NavItem-disabled-color": "#667085",
         "--NavItem-icon-color": "#8a94a6",
         "--NavItem-icon-active-color": "#ffffff",
         "--NavItem-icon-disabled-color": "#565e73",
-        bgcolor: "#121621",
-        color: "#ffffff",
-        display: { xs: "none", lg: "flex" },
-        flexDirection: "column",
-        height: "100%",
-        left: 0,
-        maxWidth: "100%",
-        position: "fixed",
-        scrollbarWidth: "none",
-        top: 0,
-        width: "var(--SideNav-width)",
-        zIndex: "var(--SideNav-zIndex)",
-        "&::-webkit-scrollbar": { display: "none" },
       }}
+      className="bg-bg_default text-white flex-col h-full fixed top-0 left-0 max-w-full lg:flex hidden overflow-hidden z-[var(--SideNav-zIndex)]"
     >
       <Stack spacing={2} sx={{ p: 3 }}>
         <Box
@@ -81,7 +70,11 @@ export function SideNav(): React.JSX.Element {
         </Box>
       </Stack>
       <Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
-      <Box component="nav" sx={{ flex: "1 1 auto", p: "12px" }}>
+      <Box
+        component="nav"
+        sx={{ flex: "1 1 auto", p: "12px" }}
+        className="text-text_default"
+      >
         {renderNavItems({ pathname, items: navItems })}
       </Box>
       <Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
@@ -203,6 +196,7 @@ function NavItem({
             color: "var(--NavItem-active-color)",
           }),
         }}
+        className="focus:bg-active focus:text-white"
       >
         <Box
           sx={{

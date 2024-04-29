@@ -14,6 +14,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        bg_default: "#121621",
+        text_default: "#b3b9c6",
         active: "#635bff",
         green: "#00ff00",
         gray: "#E8E8E8",
