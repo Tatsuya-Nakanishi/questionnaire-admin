@@ -10,7 +10,7 @@ export default function Component() {
     >
       <Toolbar>
         <Typography variant="h6" noWrap component="div">
-          <Link href="/" underline="none" color="inherit">
+          <Link href="/home" underline="none" color="inherit">
             アンケート 管理画面
           </Link>
         </Typography>

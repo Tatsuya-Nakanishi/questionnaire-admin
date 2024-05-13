@@ -11,6 +11,10 @@ import {
 } from "@mui/material";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import CoffeeIcon from "@mui/icons-material/Coffee";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import HomeIcon from "@mui/icons-material/Home";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 import React from "react";
 import { usePathname } from "next/navigation";
 
@@ -20,8 +24,10 @@ type MenuItem = {
   icon: React.ReactNode;
 };
 const menuList: MenuItem[] = [
-  { name: "ページ１", url: "/page1", icon: <BeachAccessIcon /> },
-  { name: "ページ２", url: "/page2", icon: <CoffeeIcon /> },
+  { name: "HOME", url: "/home", icon: <HomeIcon /> },
+  { name: "アンケート一覧", url: "/questionnaires", icon: <ListAltIcon /> },
+  { name: "解答一覧", url: "/answers", icon: <QuestionAnswerIcon /> },
+  { name: "新規作成", url: "/create", icon: <PlaylistAddIcon /> },
 ];
 
 const drawerWidth = 240;
