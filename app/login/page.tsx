@@ -11,7 +11,7 @@ export default function Component() {
   const [password, setPassword] = useState("");
   const { data: session } = useSession();
   const router = useRouter();
-  console.log(session?.user);
+  // console.log(session?.user);
 
   // if (session) {
   //   router.push("/dashboard"); // ログイン後のリダイレクト先
@@ -19,24 +19,24 @@ export default function Component() {
 
   const handleSubmit = async () => {
     try {
-      console.log(email);
-      console.log(password);
+      // console.log(email);
+      // console.log(password);
       await signIn("credentials", {
         redirect: false,
         email,
         password,
       }).then((res) => {
         if (res?.error) {
-          console.log(res.error);
+          // console.log(res.error);
         } else {
           router.push("/dashboard");
         }
       });
       // signOut();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
-    console.log("サブミット");
+    // console.log("サブミット");
   };
 
   return (

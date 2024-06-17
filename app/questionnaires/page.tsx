@@ -9,87 +9,30 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { Download as DownloadIcon } from "@phosphor-icons/react/dist/ssr/Download";
 import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import { Upload as UploadIcon } from "@phosphor-icons/react/dist/ssr/Upload";
-import dayjs from "dayjs";
+import { QuestionnaireType } from "@/types/types";
+import QuestionnaireItemCard from "@/components/organisms/QuestionnaireItemCard/index";
 
 import { config } from "@/config";
-import { IntegrationCard } from "@/components/dashboard/integrations/integrations-card";
-import type { Integration } from "@/components/dashboard/integrations/integrations-card";
 import { CompaniesFilters } from "@/components/dashboard/integrations/integrations-filters";
 
 export const metadata = {
   title: `Integrations | Dashboard | ${config.site.name}`,
 } satisfies Metadata;
 
-const integrations = [
-  {
-    id: "INTEG-006",
-    title: "Dropbox",
-    description:
-      "Dropbox is a file hosting service that offers cloud storage, file synchronization, a personal cloud.",
-    logo: "/assets/logo-dropbox.png",
-    installs: 594,
-    updatedAt: dayjs().subtract(12, "minute").toDate(),
-  },
-  {
-    id: "INTEG-005",
-    title: "Medium Corporation",
-    description:
-      "Medium is an online publishing platform developed by Evan Williams, and launched in August 2012.",
-    logo: "/assets/logo-medium.png",
-    installs: 625,
-    updatedAt: dayjs().subtract(43, "minute").subtract(1, "hour").toDate(),
-  },
-  {
-    id: "INTEG-004",
-    title: "Slack",
-    description:
-      "Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.",
-    logo: "/assets/logo-slack.png",
-    installs: 857,
-    updatedAt: dayjs().subtract(50, "minute").subtract(3, "hour").toDate(),
-  },
-  {
-    id: "INTEG-003",
-    title: "Lyft",
-    description:
-      "Lyft is an on-demand transportation company based in San Francisco, California.",
-    logo: "/assets/logo-lyft.png",
-    installs: 406,
-    updatedAt: dayjs()
-      .subtract(7, "minute")
-      .subtract(4, "hour")
-      .subtract(1, "day")
-      .toDate(),
-  },
-  {
-    id: "INTEG-002",
-    title: "GitHub",
-    description:
-      "GitHub is a web-based hosting service for version control of code using Git.",
-    logo: "/assets/logo-github.png",
-    installs: 835,
-    updatedAt: dayjs()
-      .subtract(31, "minute")
-      .subtract(4, "hour")
-      .subtract(5, "day")
-      .toDate(),
-  },
-  {
-    id: "INTEG-001",
-    title: "Squarespace",
-    description:
-      "Squarespace provides software as a service for website building and hosting. Headquartered in NYC.",
-    logo: "/assets/logo-squarespace.png",
-    installs: 435,
-    updatedAt: dayjs()
-      .subtract(25, "minute")
-      .subtract(6, "hour")
-      .subtract(6, "day")
-      .toDate(),
-  },
-] satisfies Integration[];
+async function fetchQuestionnaires() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/questionnaires`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  const questionnaires: QuestionnaireType[] = await res.json();
+  return questionnaires;
+}
 
-export default function Page(): React.JSX.Element {
+export default async function Page() {
+  const questionnaires = await fetchQuestionnaires();
+  console.log(questionnaires[0].genreName);
   return (
     <Stack spacing={3}>
       <Stack direction="row" spacing={3}>
@@ -115,15 +58,15 @@ export default function Page(): React.JSX.Element {
             startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
             variant="contained"
           >
-            Add
+            新規作成
           </Button>
         </div>
       </Stack>
       <CompaniesFilters />
       <Grid container spacing={3}>
-        {integrations.map((integration) => (
-          <Grid key={integration.id} lg={4} md={6} xs={12}>
-            <IntegrationCard integration={integration} />
+        {questionnaires.map((questionnaire) => (
+          <Grid key={questionnaire.id} lg={4} md={6} xs={12}>
+            <QuestionnaireItemCard questionnaire={questionnaire} />
           </Grid>
         ))}
       </Grid>

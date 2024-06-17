@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_SHADOW_DATABASE_URL")
+}
+
+model admins {
+  id        Int      @id @default(autoincrement())
+  /// @Validator.@IsEmail()
+  email     String   @unique
+  /// @HideField()
+  /// @Validator.MinLength(8)
+  password  String
+  role_id   Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  role       roles     @relation(fields: [role_id], references: [id])
+  sessions   sessions[]
+}
+
+model roles {
+  id         Int      @id @default(autoincrement())
+  role_name  String
+  admins     admins[]
+}
+
+model questionnaires {
+  id        Int       @id @default(autoincrement())
+  title     String
+  is_public Boolean   @default(false)
+  genre_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  questions questions[]
+  answers    answers[]
+  genre     genres     @relation(fields: [genre_id], references: [id])
+}
+
+model questions {
+  id              Int              @id @default(autoincrement())
+  questionnaire_id Int
+  question_text   String
+  question_type_id Int
+  is_required     Boolean          @default(false)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+
+  questionnaire   questionnaires   @relation(fields: [questionnaire_id], references: [id])
+  question_type   question_types   @relation(fields: [question_type_id], references: [id])
+  options         question_options[]
+  answer_details  answer_details[]
+}
+
+model question_options {
+  id           Int       @id @default(autoincrement())
+  question_id  Int
+  option_text  String
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  question     questions  @relation(fields: [question_id], references: [id])
+  answer_details      answer_details[]
+}
+
+model answers {
+  id             Int       @id @default(autoincrement())
+  questionnaire_id Int
+  respondent_id  String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  questionnaire  questionnaires @relation(fields: [questionnaire_id], references: [id])
+  answer_details answer_details[]
+}
+
+model answer_details {
+  id           Int              @id @default(autoincrement())
+  answer_id    Int
+  question_id  Int
+  answer_text  String?
+  option_id    Int?
+  created_at   DateTime         @default(now())
+  updated_at   DateTime         @updatedAt
+
+  answer       answers        @relation(fields: [answer_id], references: [id])
+  question     questions        @relation(fields: [question_id], references: [id])
+  option       question_options? @relation(fields: [option_id], references: [id])
+}
+
+model question_types {
+  id         Int        @id @default(autoincrement())
+  type_name  String
+  questions  questions[]
+}
+
+model genres {
+  id         Int         @id @default(autoincrement())
+  genre_name String
+  questionnaires questionnaires[]
+}
+
+model sessions {
+  id            Int   @id @default(autoincrement())
+  admin_id      Int
+  expires       DateTime
+  session_token String   @unique
+  access_token  String   @unique
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  admin         admins    @relation(fields: [admin_id], references: [id])
+}
+
+
+model verification_requests {
+  id         Int   @id @default(autoincrement())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
